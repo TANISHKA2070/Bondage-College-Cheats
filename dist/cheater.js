@@ -1,71 +1,94 @@
-"use strict";
-var cheaterHtml = "<div id=\"cheat\" style=\"display: none; position: fixed; z-index: 1; left: 0px; top: 0px; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); overflow: auto;\"><div style=\"margin:15% auto;padding:20px;width:60%;background-color:#ffffff;border-radius:8px;\"><div style=\"display: flex;justify-content: space-between;\"><h4 style=\"margin-top: 0px;\">Cheat Menu</h4><button onclick=\"document.getElementById('cheat').style.display='none'\">Close</button></div><div style=\"display: flex;justify-content: space-between\"><fieldset style=\"width: 46%\"><legend>Conversation</legend><div><img src=\"Icons/Heart.png\" /><button title=\"Add Love\" onclick=\"ActorChangeAttitude(1, 0);\"><img src=\"Icons/Navigation/ArrowUpInactive.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add Hate\" onclick=\"ActorChangeAttitude(-1, 0);\"><img src=\"Icons/Navigation/ArrowDownInactive.png\" style=\"width: 32px; height: 32px;\"></button></div><div><img src=\"Icons/Submission.png\" /><button title=\"Add Dominance\" onclick=\"ActorChangeAttitude(0, 1);\"><img src=\"Icons/Navigation/ArrowUpInactive.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add Submission\" onclick=\"ActorChangeAttitude(0, -1);\"><img src=\"Icons/Navigation/ArrowDownInactive.png\" style=\"width: 32px; height: 32px;\"></button></div></fieldset><fieldset style=\"width: 46%\"><legend>Inventory</legend><button title=\"Add Armbinder\" onclick=\"PlayerAddInventory('Armbinder', 1)\"><img src=\"Icons/Armbinder_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add BallGag\" onclick=\"PlayerAddInventory('BallGag', 1)\"><img src=\"Icons/BallGag_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add Blindfold\" onclick=\"PlayerAddInventory('Blindfold', 1)\"><img src=\"Icons/Blindfold_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add ButtPlug\" onclick=\"PlayerAddInventory('ButtPlug', 1)\"><img src=\"Icons/ButtPlug_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add ChastityBelt\" onclick=\"PlayerAddInventory('ChastityBelt', 1)\"><img src=\"Icons/ChastityBelt_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add ClothGag\" onclick=\"PlayerAddInventory('ClothGag', 1)\"><img src=\"Icons/ClothGag_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add Collar\" onclick=\"PlayerAddInventory('Collar', 1)\"><img src=\"Icons/Collar_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add Crop\" onclick=\"PlayerAddInventory('Crop', 1)\"><img src=\"Icons/Crop_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add Cuffs\" onclick=\"PlayerAddInventory('Cuffs', 1)\"><img src=\"Icons/Cuffs_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add CuffsKey\" onclick=\"PlayerAddInventory('CuffsKey', 1)\"><img src=\"Icons/CuffsKey_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add DoubleOpenGag\" onclick=\"PlayerAddInventory('DoubleOpenGag', 1)\"><img src=\"Icons/DoubleOpenGag_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add PantieGag\" onclick=\"PlayerAddInventory('PantieGag', 1)\"><img src=\"Icons/PantieGag_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add Rope\" onclick=\"PlayerAddInventory('Rope', 1)\"><img src=\"Icons/Rope_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add SleepingPill\" onclick=\"PlayerAddInventory('SleepingPill', 1)\"><img src=\"Icons/SleepingPill_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add SockGag\" onclick=\"PlayerAddInventory('SockGag', 1)\"><img src=\"Icons/SockGag_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add TapeGag\" onclick=\"PlayerAddInventory('TapeGag', 1)\"><img src=\"Icons/TapeGag_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Add VibratingEgg\" onclick=\"PlayerAddInventory('VibratingEgg', 1)\"><img src=\"Icons/VibratingEgg_Active.png\" style=\"width: 32px; height: 32px;\"></button></fieldset></div><div style=\"display: flex;justify-content: space-between\"><fieldset style=\"width: 46%\"><legend>Time</legend><div><img src=\"Icons/Wait_Active.png\" style=\"width: 32px; height: 32px;\" /><button title=\"Add 10 Minutes\" onclick=\"CurrentTime+=600000\"><img src=\"Icons/Navigation/ArrowUpInactive.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Subtract 10 Minutes\" onclick=\"CurrentTime-=600000\"><img src=\"Icons/Navigation/ArrowDownInactive.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Next Event\" onclick=\"CurrentTime=LimitTimer\"><img src=\"Icons/Leave_Inactive.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Pause/Resume\" onclick=\"if(RunTimer) StopTimer(CurrentTime); else StartTimer(LimitTimer, LimitChapter, LimitScreen)\"><img src=\"Icons/Wait_Inactive.png\" style=\"width: 32px; height: 32px;\"></button></div></fieldset><fieldset style=\"width: 46%\"><legend>Lock Inventory</legend><button title=\"Toggle Armbinder\" onclick=\"if(PlayerHasLockedInventory('Armbinder')) PlayerUnlockInventory('Armbinder'); else PlayerLockInventory('Armbinder')\"><img src=\"Icons/Armbinder_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Toggle BallGag\" onclick=\"if(PlayerHasLockedInventory('BallGag')) PlayerUnlockInventory('BallGag'); else PlayerLockInventory('BallGag')\"><img src=\"Icons/BallGag_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Toggle Blindfold\" onclick=\"if(PlayerHasLockedInventory('Blindfold')) PlayerUnlockInventory('Blindfold'); else PlayerLockInventory('Blindfold')\"><img src=\"Icons/Blindfold_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Toggle ButtPlug\" onclick=\"if(PlayerHasLockedInventory('ButtPlug')) PlayerUnlockInventory('ButtPlug'); else PlayerLockInventory('ButtPlug')\"><img src=\"Icons/ButtPlug_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Toggle ChastityBelt\" onclick=\"if(PlayerHasLockedInventory('ChastityBelt')) PlayerUnlockInventory('ChastityBelt'); else PlayerLockInventory('ChastityBelt')\"><img src=\"Icons/ChastityBelt_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Toggle ClothGag\" onclick=\"if(PlayerHasLockedInventory('ClothGag')) PlayerUnlockInventory('ClothGag'); else PlayerLockInventory('ClothGag')\"><img src=\"Icons/ClothGag_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Toggle Collar\" onclick=\"if(PlayerHasLockedInventory('Collar')) PlayerUnlockInventory('Collar'); else PlayerLockInventory('Collar')\"><img src=\"Icons/Collar_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Toggle Cuffs\" onclick=\"if(PlayerHasLockedInventory('Cuffs')) PlayerUnlockInventory('Cuffs'); else PlayerLockInventory('Cuffs')\"><img src=\"Icons/Cuffs_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Toggle DoubleOpenGag\" onclick=\"if(PlayerHasLockedInventory('DoubleOpenGag')) PlayerUnlockInventory('DoubleOpenGag'); else PlayerLockInventory('DoubleOpenGag')\"><img src=\"Icons/DoubleOpenGag_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Toggle PantieGag\" onclick=\"if(PlayerHasLockedInventory('PantieGag')) PlayerUnlockInventory('PantieGag'); else PlayerLockInventory('PantieGag')\"><img src=\"Icons/PantieGag_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Toggle Rope\" onclick=\"if(PlayerHasLockedInventory('Rope')) PlayerUnlockInventory('Rope'); else PlayerLockInventory('Rope')\"><img src=\"Icons/Rope_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Toggle SockGag\" onclick=\"if(PlayerHasLockedInventory('SockGag')) PlayerUnlockInventory('SockGag'); else PlayerLockInventory('SockGag')\"><img src=\"Icons/SockGag_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Toggle TapeGag\" onclick=\"if(PlayerHasLockedInventory('TapeGag')) PlayerUnlockInventory('TapeGag'); else PlayerLockInventory('TapeGag')\"><img src=\"Icons/TapeGag_Active.png\" style=\"width: 32px; height: 32px;\"></button><button title=\"Toggle VibratingEgg\" onclick=\"if(PlayerHasLockedInventory('VibratingEgg')) PlayerUnlockInventory('VibratingEgg'); else PlayerLockInventory('VibratingEgg')\"><img src=\"Icons/VibratingEgg_Active.png\" style=\"width: 32px; height: 32px;\"></button></fieldset></div><div style=\"display: flex;justify-content: space-between\"><fieldset style=\"width: 46%\"><legend>Skill</legend><div><button title=\"Add Arts\" onclick=\"PlayerAddSkill('Arts', 1)\">Arts</button><button title=\"Add Fighting\" onclick=\"PlayerAddSkill('Fighting', 1)\">Fighting</button><button title=\"Add RopeMastery\" onclick=\"PlayerAddSkill('RopeMastery', 1)\">RopeMastery</button><button title=\"Add Sports\" onclick=\"PlayerAddSkill('Sports', 1)\">Sports</button><button title=\"Add Seduction\" onclick=\"PlayerAddSkill('Seduction', 1)\">Seduction</button></div></fieldset></div></div></div>";
-var Cheat = /** @class */ (function () {
-    function Cheat() {
-        var _this = this;
-        this.lastClockClick = 0;
-        window.addEventListener("load", function () { return _this.init(); });
-        if (document.readyState === "complete") {
-            this.init();
-        }
-    }
-    Cheat.prototype.init = function () {
-        var _this = this;
-        this.injectWindow();
-        document.addEventListener("keypress", function (e) {
-            if (e.key === "c") {
-                var modal = document.getElementById("cheat");
-                _this.toggle(modal);
-            }
-        });
-        var mainCanvas = document.getElementById("MainCanvas");
-        if (mainCanvas) {
-            mainCanvas.addEventListener("click", function (e) {
-                // Clock icon
-                if (e.offsetX > 990 && e.offsetX < 1060 &&
-                    e.offsetY > 605 && e.offsetY < 675) {
-                    var now = Date.now();
-                    if (now - _this.lastClockClick < 1000) {
-                        var modal = document.getElementById("cheat");
-                        _this.toggle(modal);
-                        _this.lastClockClick = 0;
-                    }
-                    else {
-                        _this.lastClockClick = now;
-                    }
-                }
-            });
-        }
-    };
-    Cheat.prototype.toggle = function (element) {
-        if (element) {
-            if (element.style.display === "none") {
-                this.show(element);
-            }
-            else {
-                this.hide(element);
-            }
-        }
-    };
-    Cheat.prototype.show = function (element) {
-        if (element) {
-            element.style.display = "block";
-        }
-    };
-    Cheat.prototype.hide = function (element) {
-        if (element) {
-            element.style.display = "none";
-        }
-    };
-    Cheat.prototype.injectWindow = function () {
-        var temp = document.createElement("div");
-        temp.innerHTML = cheaterHtml;
-        for (var childKey in temp.children) {
-            if (temp.children.hasOwnProperty(childKey)) {
-                document.body.appendChild(temp.children[childKey]);
-            }
-        }
-    };
-    return Cheat;
-}());
-var cheat = new Cheat();
+var CheatAllow = true;
+
+// Receives cheat keys
+function CheatKey() {
+	
+	// No cheats until the player has a name
+	if (Common_PlayerName != "") {
+	
+		// In a fight or a race, the user can press * to win automatically
+		if (!FightEnded && (FightTimer > 0)) { if (KeyPress == 42) FightEnd(true); return; }
+		if (!DoubleFightEnded && (DoubleFightTimer > 0)) { if (KeyPress == 42) DoubleFightEnd(true); return; }
+		if (!RaceEnded && (RaceTimer > 0)) { if (KeyPress == 42) { RaceProgress = RaceGoal; RaceEnd(true); } return; }
+		if (!QuizEnded && (QuizTimer > 0) && (QuizBetweenQuestionTimer == 0) && (QuizAnswerText == "")) { if (KeyPress == 42) { QuizAnswerText = QuizQuestion[QuizProgressLeft + QuizProgressRight][QuizQuestionAnswer1]; QuizAnswerBy = "Left"; QuizProgressLeft++; QuizBetweenQuestionTimer = QuizTimer + QuizOtherQuestionTime; } return; }
+		
+		// If we must manipulate time using + and -
+		if (KeyPress == 43) CheatTime(900000);
+		if (KeyPress == 45) CheatTime(-900000);
+		
+		// Specific cheats by functions
+		if (CurrentActor != "") CheatActor();
+		if ((CurrentChapter == "C012_AfterClass") && (CurrentScreen == "Dorm")) CheatDorm();
+		CheatSkill();
+		CheatInventory();
+
+	}
+
+}
+
+// Cheats the clock by adding or removing time
+function CheatTime(TimeChange) {
+
+	// Time must be running to allow cheating it
+	if (RunTimer) {
+
+		// Change the main clock
+		CurrentTime = CurrentTime + TimeChange;
+		if (CurrentTime <= 0) CurrentTime = 1;
+
+		// Change all the timed events in the game log to fit with that change
+		for (var L = 0; L < GameLog.length; L++)
+			if (GameLog[L][GameLogTimer] > 0) {
+				GameLog[L][GameLogTimer] = GameLog[L][GameLogTimer] + TimeChange;
+				if (GameLog[L][GameLogTimer] <= 0) GameLog[L][GameLogTimer] = 1;
+				if (GameLog[L][GameLogTimer] > 24 * 60 * 60 * 1000) GameLog[L][GameLogTimer] = 24 * 60 * 60 * 1000;
+			}
+
+	}
+
+}
+
+// Cheats to change actor love or submission (from 1 to 4)
+function CheatActor() {
+	if (KeyPress == 49) ActorChangeAttitude(1, 0);
+	if (KeyPress == 50) ActorChangeAttitude(-1, 0);
+	if (KeyPress == 51) ActorChangeAttitude(0, 1);
+	if (KeyPress == 52) ActorChangeAttitude(0, -1);
+}
+
+// Cheats to gain a skill (from 5 to 9)
+function CheatSkill() {
+	if (KeyPress == 53) PlayerAddSkill("Arts", 1);
+	if (KeyPress == 54) PlayerAddSkill("Fighting", 1);
+	if (KeyPress == 55) PlayerAddSkill("RopeMastery", 1);
+	if (KeyPress == 56) PlayerAddSkill("Seduction", 1);
+	if (KeyPress == 57) PlayerAddSkill("Sports", 1);
+}
+
+// Cheats to add inventory (each letter represent an item)
+function CheatInventory() {
+	if ((KeyPress == 65) || (KeyPress == 97)) PlayerAddInventory("Armbinder", 1);
+	if ((KeyPress == 66) || (KeyPress == 98)) PlayerAddInventory("BallGag", 1);
+	if ((KeyPress == 67) || (KeyPress == 99)) PlayerAddInventory("Cuffs", 1);
+	if ((KeyPress == 70) || (KeyPress == 102)) PlayerAddInventory("ChastityBelt", 1);
+	if ((KeyPress == 71) || (KeyPress == 103)) PlayerAddInventory("ClothGag", 1);
+	if ((KeyPress == 75) || (KeyPress == 107)) PlayerAddInventory("CuffsKey", 1);
+	if ((KeyPress == 76) || (KeyPress == 108)) PlayerAddInventory("Collar", 1);
+	if ((KeyPress == 80) || (KeyPress == 112)) PlayerAddInventory("Crop", 1);
+	if ((KeyPress == 82) || (KeyPress == 114)) PlayerAddInventory("Rope", 1);
+	if ((KeyPress == 83) || (KeyPress == 115)) PlayerAddInventory("SleepingPill", 1);
+	if ((KeyPress == 84) || (KeyPress == 116)) PlayerAddInventory("TapeGag", 1);
+	if ((KeyPress == 86) || (KeyPress == 118)) PlayerAddInventory("VibratingEgg", 1);
+}
+
+// Cheats that are specific to the player's dorm room
+function CheatDorm() {
+
+	// If the player isn't grounded, she can be released by using *
+	if ((KeyPress == 42) && !GameLogQuery(CurrentChapter, "", "EventGrounded")) {
+		PlayerReleaseBondage();
+		if (PlayerHasLockedInventory("ChastityBelt")) { PlayerUnlockInventory("ChastityBelt"); PlayerAddInventory("ChastityBelt", 1); }
+		if (PlayerHasLockedInventory("VibratingEgg")) { PlayerUnlockInventory("VibratingEgg"); PlayerAddInventory("VibratingEgg", 1); }		
+	}
+
+}
