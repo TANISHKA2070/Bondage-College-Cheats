@@ -11,7 +11,7 @@
 function inject() {
     if (!window.location.href.includes("BondageClub")) {
         var script = document.createElement("script");
-        script.src = "https://tasadar2.github.io/Bondage-College-Cheats/dist/cheater.js";
+        script.src = "https://github.com/TANISHKA2070/Bondage-College-Cheats/dist/cheater.js";
         document.body.appendChild(script);
     }
 }
